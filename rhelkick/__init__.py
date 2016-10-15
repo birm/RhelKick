@@ -1,2 +1,2 @@
 __all__ = ["RhelKick"]
-from RhelKick import RhelKick
+from rhelkick.RhelKick import RhelKick
