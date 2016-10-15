@@ -21,8 +21,6 @@ class RhelKick(object):
 
     def __init__(self, folder="/root/kickstart", services=[], options={"ext_host", "8.8.8.8"}):
         """initalize, trying to normalize input."""
-        self.port = 8080
-        self.myip = self.get_ip(self.options.get("ext_host", "8.8.8.8"))
         # get ready for kickstart file creation
         self.kickfile = open(folder+'rhelkick-ks.cfg', 'w+')
         # start time
@@ -60,6 +58,8 @@ class RhelKick(object):
                                 for x in options.read().splitlines()}
             except IndexError:
                 raise IOError('Option file should have key:value per line.')
+        self.port = 8080
+        self.myip = self.get_ip(self.options.get("ext_host", "8.8.8.8"))
 
     def __str__(self):
         """Return a string for command line invoke."""
