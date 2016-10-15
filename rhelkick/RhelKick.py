@@ -19,7 +19,7 @@ class RhelKick(object):
         options: A list, file, or file path containing a list of options.
     """
 
-    def __init__(self, folder="/root/kickstart", services=None, options=None):
+    def __init__(self, folder="/root/kickstart", services=None, options={"ext_host", "8.8.8.8"}):
         """initalize, trying to normalize input."""
         self.port = 8080
         self.myip = self.get_ip(self.options.get("ext_host", "8.8.8.8"))
@@ -33,7 +33,7 @@ class RhelKick(object):
             os.mkdir(folder)
         self.folder = folder
         self.kickfile = open(folder+'anaconda-ks.cfg', 'w+')
-        if type(services) is list:
+        if type(services) is dict:
             self.services = services
         else:
             if type(services) is not file:
