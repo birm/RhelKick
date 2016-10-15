@@ -19,7 +19,7 @@ class RhelKick(object):
         options: A list, file, or file path containing a list of options.
     """
 
-    def __init__(self, folder="kickstart", services=[], options={"ext_host", "8.8.8.8"}):
+    def __init__(self, folder="kickstart", services=["web"], options={"ext_host", "8.8.8.8"}):
         """initalize, trying to normalize input."""
         # get ready for kickstart file creation
         self.kickfile = open(folder+'rhelkick-ks.cfg', 'w+')
