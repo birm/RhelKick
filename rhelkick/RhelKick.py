@@ -19,10 +19,8 @@ class RhelKick(object):
         options: A list, file, or file path containing a list of options.
     """
 
-    def __init__(self, folder="/root/kickstart", services=None, options=None):
+    def __init__(self, folder="kickstart", services=["web"], options={"ext_host": "8.8.8.8"}):
         """initalize, trying to normalize input."""
-        self.port = 8080
-        self.myip = self.get_ip(self.options.get("ext_host", "8.8.8.8"))
         # get ready for kickstart file creation
         self.kickfile = open(folder+'rhelkick-ks.cfg', 'w+')
         # start time
@@ -32,10 +30,9 @@ class RhelKick(object):
         if not os.path.isdir(folder):
             os.mkdir(folder)
         self.folder = folder
-        self.kickfile = open(folder+'anaconda-ks.cfg', 'w+')
-        if type(services) is list:
-            self.services = services
-        else:
+        self.kickfile = open(folder+'/anaconda-ks.cfg', 'w+')
+        self.services = services
+        if type(services) is not list:
             if type(services) is not file:
                 try:
                     services = open(services)
@@ -45,10 +42,9 @@ class RhelKick(object):
                 except TypeError:
                     raise TypeError('services input type not understood')
             self.services = services.read().splitlines()
-        # if options looks like a list, then use it
-        if type(options) is list:
-            self.options = options
-        else:
+        # if options is not a dictionary, avoid it
+        self.options = options
+        if type(options) is not dict:
             if type(options) is not file:
                 try:
                     options = open(options)
@@ -62,6 +58,8 @@ class RhelKick(object):
                                 for x in options.read().splitlines()}
             except IndexError:
                 raise IOError('Option file should have key:value per line.')
+        self.port = 8080
+        self.myip = self.get_ip(self.options.get("ext_host", "8.8.8.8"))
 
     def __str__(self):
         """Return a string for command line invoke."""
@@ -72,7 +70,7 @@ class RhelKick(object):
         starttime = datetime.datetime.fromtimestamp(time.time())
         self.starttime = starttime.strftime('%Y-%m-%d %H:%M:%S')
 
-    def get_ip(to="8.8.8.8"):
+    def get_ip(self, to="8.8.8.8"):
         """Get external ip address."""
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect((to, 80))
