@@ -70,7 +70,7 @@ class RhelKick(object):
         starttime = datetime.datetime.fromtimestamp(time.time())
         self.starttime = starttime.strftime('%Y-%m-%d %H:%M:%S')
 
-    def get_ip(to="8.8.8.8"):
+    def get_ip(self, to="8.8.8.8"):
         """Get external ip address."""
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect((to, 80))
