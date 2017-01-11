@@ -10,3 +10,6 @@ install:
     
 script:
     - py.test
+
+notifications:
+  slack: rbirm:fjJKXGPbjyXSGAKKaOU6GWEh
